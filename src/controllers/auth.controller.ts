@@ -9,6 +9,9 @@ export const register = async (req: Request, res: Response) => {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "User already exists" });
 
+    if (!["institution", "investor"].includes(role))
+      return res.status(400).json({ message: "Invalid role" });
+
     user = new User({
       name,
       email,
